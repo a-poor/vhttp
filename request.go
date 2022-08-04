@@ -32,13 +32,23 @@ func ValidateRequest(req *http.Request, v ...RequestValidator) error {
 	return validation.ValidateStruct(req, rs...)
 }
 
+func Method(rules ...validation.Rule) RequestValidator {
+	return func(r *http.Request) *validation.FieldRules {
+		return validation.Field(&r.Method, rules...)
+	}
+}
+
 // MethodIs validates that the request's HTTP method is not empty and
 // matches one of the given methods.
+//
+//	// Assert that the request's method is "GET".
+//	v := resttest.MethodIs("GET")
+//
+//	// Assert that the request's method is "PUT" or "POST".
+//	v := resttest.MethodIs("PUT", "POST")
 func MethodIs(m ...string) RequestValidator {
 	ms := toAnySlice(m)
-	return func(r *http.Request) *validation.FieldRules {
-		return validation.Field(&r.Method, validation.Required, validation.In(ms...))
-	}
+	return Method(validation.Required, validation.In(ms...))
 }
 
 // MethodIsGet validates that the request's HTTP method is GET.
@@ -75,31 +85,24 @@ func MethodIsOptions() RequestValidator {
 // not one of the given methods.
 func MethodIsnt(m ...string) RequestValidator {
 	ms := toAnySlice(m)
-	return func(r *http.Request) *validation.FieldRules {
-		return validation.Field(&r.Method, validation.Required, validation.NotIn(ms...))
-	}
-}
-
-func Demo() RequestValidator {
-	// Create a header validator
-	hv := Header(HeaderValidators{
-		HeaderContentType:   {validation.Required, validation.In(MimeJSON)},
-		HeaderAuthorization: {validation.Required},
-	})
-	return hv
+	return Method(validation.Required, validation.NotIn(ms...))
 }
 
 // Header creates a validator that makes assertions about
 // the request's Header field.
 //
-//   hv := Header(HeaderValidators{
-// 	   HeaderContentType:   {validation.Required, validation.In(MimeJSON)},
-//     HeaderAuthorization: {validation.Required},
-//   })
+//	// Assert that the content type is "application/json" and the
+//	// authorization header is a bearer token.
+//	hv := resttest.Header(resttest.HeaderValidators{
+//	  "Content-Type":  {validation.Required, validation.In("application/json")},
+//	  "Authorization": {validation.Required, resttest.BearerAuthRegexRule},
+//	})
 //
 // Note that keys will be converted to the canonical form
 // using the CanonicalHeaderKey function of this package
-// (copied from the net/http package).
+// (copied from the net/http package). If you need to change
+// this behavior, you can provide your own implementation
+// and change at the resttest package level.
 func Header(rules HeaderValidators) RequestValidator {
 	// Slice of any specified key validators
 	var hr []*validation.KeyRules
@@ -119,3 +122,34 @@ func Header(rules HeaderValidators) RequestValidator {
 		return validation.Field(&r.Header, validation.Map(hr...))
 	}
 }
+
+// URL creates a validator that makes assertions about
+// the request's Header field.
+func URL(rules ...validation.Rule) RequestValidator {
+	return func(r *http.Request) *validation.FieldRules {
+		return validation.Field(&r.URL, rules...)
+	}
+}
+
+// TODO – Body validations...
+func Body(rules ...validation.Rule) RequestValidator {
+	return func(r *http.Request) *validation.FieldRules {
+		return validation.Field(&r.Body, rules...)
+	}
+}
+
+// TODO – TCP validations...
+func TCP(rules ...validation.Rule) RequestValidator {
+	return func(r *http.Request) *validation.FieldRules {
+		return validation.Field(&r.Body, rules...)
+	}
+}
+
+// TODO – Form validations...
+func Form(rules ...validation.Rule) RequestValidator {
+	return func(r *http.Request) *validation.FieldRules {
+		return validation.Field(&r.Form, rules...)
+	}
+}
+
+// TODO – Validate can parse body as content type, etc...

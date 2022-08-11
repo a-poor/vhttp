@@ -1,5 +1,10 @@
 package vhttp
 
+import (
+	"net/http"
+	"regexp"
+)
+
 // Common headers, used for convenience
 const (
 	HeaderContentType   = "Content-Type"
@@ -30,3 +35,18 @@ const (
 
 // Validator is a function that validates a value of type T.
 type Validator[T any] func(T) error
+
+// Regular expressions for matching against (simplified)
+// Authentication HTTP headers.
+var (
+	BasicAuthMatch  = regexp.MustCompile(`^Basic .+$`)
+	BearerAuthMatch = regexp.MustCompile(`^Bearer .+$`)
+)
+
+// CanonicallHeaderKey converts the given string to a canonical form.
+//
+// This function is used in Header validation function, on the keys of the
+// HeaderValidators parameter. By copying the function from the net/http
+// package, this can be replaced with a custom implementation, if that
+// functionality needs to be changed.
+var CanonicalHeaderKey func(string) string = http.CanonicalHeaderKey

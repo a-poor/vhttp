@@ -2,49 +2,32 @@
 
 __created by Austin Poor_
 
-A library for testing HTTP requests and responses from the `net/http` package.
+A library for validating HTTP requests and responses from the `net/http` package.
 
-## TO-DO 
+## Quick Example
 
-**Requests:**
-- [ ] Method
-  - [x] Is x
-  - [x] IsNot x
-  - [x] Is (GET/POST/PUT/...)
-- [ ] URL
-  - [X] Has...
-    - [X] ...Scheme
-    - [X] ...User
-    - [X] ...Scheme
-    - [X] ...Host
-    - [X] ...Path
-  - [ ] Path variables
-  - [X] Query variables
-  - [X] Path matches glob
-  - [X] Is x
-- [ ] Headers
-  - [X] Has header x
-  - [ ] Doesn't have header x
-- [ ] Body (as bytes)
-- [ ] TCP
-- [ ] Form Data
+The following is a quick example testing that `req` (of type `*http.Request`)...
+1. Is a "GET" request
+2. Calling `json.Valid()` on the body returns true
+3. Has the header "Content-Type" and it's equal to "application/json"
+4. The header "Authorization" matches the regular expression `^Bearer .+$`
+5. Has the URL path "/users/all"
 
-**Responses:**
-- [ ] Status Code
-  - [ ] Is x
-  - [ ] IsNot x
-  - [ ] IsIn [x]
-  - [ ] IsNotIn [x]
-  - [ ] InRange x-y
-  - [ ] NotInRange x-y
-  - [ ] IsSuccess
-  - [ ] IsError
-  - [ ] IsRedirect
-  - [ ] IsClientError
-  - [ ] IsServerError
-- [ ] Headers
-  - [ ] Has header x
-  - [ ] Doesn't have header x
-- [ ] Body (as bytes)
-- [ ] TCP
-- [ ] Form Data
+```go
+err := vhttp.ValidateRequest(req, 
+    vhttp.MethodIsGet(),                      // 1
+    vhttp.BodyIsValidJSON(),                  // 2
+    vhttp.HeaderContentTypeJSON(),            // 3
+    vhttp.HeaderAuthorizationMatchesBearer(), // 4
+    vhttp.URLPathIs("/users/all"),            // 5
+)
+```
+
+Read more and find more examples in the [go docs](https://pkg.go.dev/github.com/a-poor/vhttp)!
+
+## To-Do
+
+- Add lots of tests!
+- Add examples!
+- Form validators
+- Check for `nil` pointers? (eg `*url.URL`)

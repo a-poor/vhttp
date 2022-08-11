@@ -1,8 +1,11 @@
 package vhttp
 
 import (
+	"fmt"
 	"net/http"
 	"regexp"
+
+	"github.com/hashicorp/go-multierror"
 )
 
 // Common headers, used for convenience
@@ -33,9 +36,6 @@ const (
 	MimeImageWEBP   = "image/webp"
 )
 
-// Validator is a function that validates a value of type T.
-type Validator[T any] func(T) error
-
 // Regular expressions for matching against (simplified)
 // Authentication HTTP headers.
 var (
@@ -50,3 +50,49 @@ var (
 // package, this can be replaced with a custom implementation, if that
 // functionality needs to be changed.
 var CanonicalHeaderKey func(string) string = http.CanonicalHeaderKey
+
+// ValidateRequest validates the request against the given validators.
+func ValidateRequest(req *http.Request, vs ...RequestValidator) error {
+	// Check that the request is not nil
+	if req == nil {
+		return fmt.Errorf("request is nil")
+	}
+
+	// Iterate through the request validators.
+	var merr *multierror.Error
+	for _, v := range vs {
+		err := v.ValidateRequest(req)
+		if err != nil {
+			merr = multierror.Append(merr, err)
+		}
+	}
+
+	// Return the multi-error as an error (or nil if there are no errors).
+	if merr != nil {
+		return multierror.Flatten(merr)
+	}
+	return nil
+}
+
+// ValidateResponse validates the response against the given validators.
+func ValidateResponse(res *http.Response, vs ...ResponseValidator) error {
+	// Check that the response is not nil
+	if res == nil {
+		return fmt.Errorf("request is nil")
+	}
+
+	// Iterate through the response validators.
+	var merr *multierror.Error
+	for _, v := range vs {
+		err := v.ValidateResponse(res)
+		if err != nil {
+			merr = multierror.Append(merr, err)
+		}
+	}
+
+	// Return the multi-error as an error (or nil if there are no errors).
+	if merr != nil {
+		return multierror.Flatten(merr)
+	}
+	return nil
+}

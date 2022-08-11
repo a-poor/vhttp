@@ -4,7 +4,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/a-poor/vhttp.svg)](https://pkg.go.dev/github.com/a-poor/vhttp)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/a-poor/vhttp)
 
-__created by Austin Poor_
+_created by Austin Poor_
 
 A library for validating HTTP requests and responses from the `net/http` package.
 

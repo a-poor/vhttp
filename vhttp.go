@@ -1,4 +1,4 @@
-package resttest
+package vhttp
 
 // Common headers, used for convenience
 const (
@@ -28,12 +28,5 @@ const (
 	MimeImageWEBP   = "image/webp"
 )
 
-// toAnySlice is a helper function to convert a generic
-// slice to a slice of any type.
-func toAnySlice[T any](vs []T) []any {
-	as := make([]any, len(vs))
-	for i, v := range vs {
-		as[i] = any(v)
-	}
-	return as
-}
+// Validator is a function that validates a value of type T.
+type Validator[T any] func(T) error

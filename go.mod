@@ -1,5 +1,9 @@
-module github.com/a-poor/resttest
+module github.com/a-poor/vhttp
 
 go 1.19
 
-require github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+require (
+	github.com/hashicorp/go-multierror v1.1.1
+)
+
+require github.com/hashicorp/errwrap v1.0.0 // indirect

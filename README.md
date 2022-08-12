@@ -41,7 +41,7 @@ Please feel free to submit an issue or a PR. Or you can reach out to me on [twit
 
 ## To-Do
 
-- Add lots of tests!
-- Add examples!
+- Add more tests!
+- Add more examples!
 - Form validators
 - Check for `nil` pointers? (eg `*url.URL`)

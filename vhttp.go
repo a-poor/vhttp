@@ -51,6 +51,32 @@ var (
 // functionality needs to be changed.
 var CanonicalHeaderKey func(string) string = http.CanonicalHeaderKey
 
+// RequestValidator is a validator that validates an http.Request.
+type RequestValidator interface {
+	ValidateRequest(req *http.Request) error
+}
+
+// RequestFunc is a function that validates an http.Request and
+// can act as a RequestValidator.
+type RequestFunc func(req *http.Request) error
+
+func (v RequestFunc) ValidateRequest(req *http.Request) error {
+	return v(req)
+}
+
+// ResponseValidator is a validator that validates an http.Response.
+type ResponseValidator interface {
+	ValidateResponse(res *http.Response) error
+}
+
+// ResponseFunc is a function that validates an http.Response and
+// can act as a ResponseValidator.
+type ResponseFunc func(res *http.Response) error
+
+func (v ResponseFunc) ValidateResponse(res *http.Response) error {
+	return v(res)
+}
+
 // ValidateRequest validates the request against the given validators.
 func ValidateRequest(req *http.Request, vs ...RequestValidator) error {
 	// Check that the request is not nil

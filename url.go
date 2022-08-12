@@ -26,6 +26,8 @@ func URLIs(s string) URLValidator {
 	}
 }
 
+// URLSchemeIs creates a URLValidator that checks that the request
+// URL's scheme matches the given scheme s.
 func URLSchemeIs(s string) URLValidator {
 	return func(u *url.URL) error {
 		if u.Scheme != s {
@@ -35,14 +37,20 @@ func URLSchemeIs(s string) URLValidator {
 	}
 }
 
+// URLSchemeIsHTTP creates a URLValidator that checks that the request
+// URL's scheme is "http".
 func URLSchemeIsHTTP() URLValidator {
 	return URLSchemeIs("http")
 }
 
+// URLSchemeIsHTTPS creates a URLValidator that checks that the request
+// URL's scheme is "https".
 func URLSchemeIsHTTPS() URLValidator {
 	return URLSchemeIs("https")
 }
 
+// URLPathIs creates a URLValidator that checks that the request URL's
+// path is equal to the given path p.
 func URLPathIs(p string) URLValidator {
 	return func(u *url.URL) error {
 		if u.Path != p {
@@ -65,6 +73,8 @@ func URLUserinfoIs(ui string) URLValidator {
 	}
 }
 
+// URLHostIs creates a URL validator that checks that the
+// URL's Host field matches h.
 func URLHostIs(h string) URLValidator {
 	return func(u *url.URL) error {
 		if u.Host != h {
@@ -94,6 +104,8 @@ func URLPathGlob(p string) URLValidator {
 	}
 }
 
+// URLQueryHas creates a URLValidator that checks that the request
+// URL's query parameters contain the given key k.
 func URLQueryHas(k string) URLValidator {
 	return func(u *url.URL) error {
 		if !u.Query().Has(k) {
@@ -103,6 +115,8 @@ func URLQueryHas(k string) URLValidator {
 	}
 }
 
+// URLQueryIs creates a URLValidator that checks that the request
+// URL's query parameters contain the given key k with the value v.
 func URLQueryIs(k, v string) URLValidator {
 	return func(u *url.URL) error {
 		// Get the list of values for the given key

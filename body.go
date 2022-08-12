@@ -41,7 +41,7 @@ func (v BodyValidator) ValidateResponse(res *http.Response) error {
 // methods each time).
 //
 // This helps avoid duplicated reads of the body and prevents issues with
-// attemps to read the body after it has been closed.
+// attempts to read the body after it has been closed.
 type CachedBodyValidator struct {
 	vs []BodyValidator
 }

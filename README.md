@@ -3,6 +3,7 @@
 [![Go Test](https://github.com/a-poor/vhttp/actions/workflows/go-test.yml/badge.svg)](https://github.com/a-poor/vhttp/actions/workflows/go-test.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/a-poor/vhttp.svg)](https://pkg.go.dev/github.com/a-poor/vhttp)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/a-poor/vhttp)
+[![Go Report Card](https://goreportcard.com/badge/github.com/a-poor/vhttp)](https://goreportcard.com/report/github.com/a-poor/vhttp)
 
 _created by Austin Poor_
 

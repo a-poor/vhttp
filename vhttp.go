@@ -78,6 +78,14 @@ func (v ResponseFunc) ValidateResponse(res *http.Response) error {
 }
 
 // ValidateRequest validates the request against the given validators.
+//
+//	err := vhttp.ValidateRequest(req,
+//		vhttp.MethodIsGet(),                      // Method == GET
+//		vhttp.BodyIsValidJSON(),                  // Body can be parsed as JSON
+//		vhttp.HeaderContentTypeJSON(),            // Body has JSON content-type header
+//		vhttp.HeaderAuthorizationMatchesBearer(), // "Authorization" header matches regex `^Bearer .+$`
+//		vhttp.URLPathIs("/users/all"),            // URL Path == "/users/all"
+//	)
 func ValidateRequest(req *http.Request, vs ...RequestValidator) error {
 	// Check that the request is not nil
 	if req == nil {
@@ -100,11 +108,33 @@ func ValidateRequest(req *http.Request, vs ...RequestValidator) error {
 	return nil
 }
 
+// ValidateRequestFF validates the request against the given validators
+// but fails fast.
+//
+// This is a version of the ValidateRequest function that stops at the
+// first validation error returned (if any).
+func ValidateRequestFF(req *http.Request, vs ...RequestValidator) error {
+	// Check that the request is not nil
+	if req == nil {
+		return fmt.Errorf("request is nil")
+	}
+
+	// Iterate through the request validators.
+	for _, v := range vs {
+		if err := v.ValidateRequest(req); err != nil {
+			return err
+		}
+	}
+
+	// Success!
+	return nil
+}
+
 // ValidateResponse validates the response against the given validators.
 func ValidateResponse(res *http.Response, vs ...ResponseValidator) error {
 	// Check that the response is not nil
 	if res == nil {
-		return fmt.Errorf("request is nil")
+		return fmt.Errorf("response is nil")
 	}
 
 	// Iterate through the response validators.
@@ -120,5 +150,27 @@ func ValidateResponse(res *http.Response, vs ...ResponseValidator) error {
 	if merr != nil {
 		return multierror.Flatten(merr)
 	}
+	return nil
+}
+
+// ValidateResponseFF validates the response against the given validators
+// but fails fast.
+//
+// This is a version of the ValidateResponse function that stops at the
+// first validation error returned (if any).
+func ValidateResponseFF(res *http.Response, vs ...ResponseValidator) error {
+	// Check that the response is not nil
+	if res == nil {
+		return fmt.Errorf("response is nil")
+	}
+
+	// Iterate through the response validators.
+	for _, v := range vs {
+		if err := v.ValidateResponse(res); err != nil {
+			return err
+		}
+	}
+
+	// Success!
 	return nil
 }

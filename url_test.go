@@ -184,12 +184,22 @@ func TestURLUserinfoIs(t *testing.T) {
 	})
 }
 
-func TestURLHostIs(t *testing.T) {}
+func TestURLHostIs(t *testing.T) {
+	t.Errorf("not implemented")
+}
 
-func TestURLPathGlob(t *testing.T) {}
+func TestURLPathGlob(t *testing.T) {
+	t.Errorf("not implemented")
+}
 
-func TestURLQueryHas(t *testing.T) {}
+func TestURLQueryHas(t *testing.T) {
+	t.Errorf("not implemented")
+}
 
-func TestURLQueryIs(t *testing.T) {}
+func TestURLQueryIs(t *testing.T) {
+	t.Errorf("not implemented")
+}
 
-func TestURLQueryValueValidator(tt *testing.T) {}
+func TestURLQueryValueValidator(t *testing.T) {
+	t.Errorf("not implemented")
+}

@@ -42,7 +42,7 @@ func HasHeader(h string) HeaderValidator {
 
 // HasHeaderContentType creates a request validator that checks that the
 // "Content-Type" header is present in the request object.
-func HasHeaderContentType(ct string) HeaderValidator {
+func HasHeaderContentType() HeaderValidator {
 	return HasHeader("Content-Type")
 }
 

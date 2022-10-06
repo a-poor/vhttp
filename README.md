@@ -4,6 +4,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/a-poor/vhttp.svg)](https://pkg.go.dev/github.com/a-poor/vhttp)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/a-poor/vhttp)
 [![Go Report Card](https://goreportcard.com/badge/github.com/a-poor/vhttp)](https://goreportcard.com/report/github.com/a-poor/vhttp)
+[![Coverage Status](https://coveralls.io/repos/github/a-poor/vhttp/badge.svg?branch=main)](https://coveralls.io/github/a-poor/vhttp?branch=main)
 
 _created by Austin Poor_
 

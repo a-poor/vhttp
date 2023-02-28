@@ -39,7 +39,7 @@ Read more and find more examples in the [go docs](https://pkg.go.dev/github.com/
 
 Contributions are welcome! 
 
-Please feel free to submit an issue or a PR. Or you can reach out to me on [twitter](https://twitter.com/austin_poor).
+Please feel free to submit an issue or a PR. Or you can reach out to me on [mastodon](https://mastodon.social/@austinpoor).
 
 ## To-Do
 
